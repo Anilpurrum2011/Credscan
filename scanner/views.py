@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render
+from django.contrib.auth.decorators import user_passes_test
+from .models import CreditRequest
 from .models import UserProfile
 from .forms import DocumentForm
 from .models import Document
@@ -90,10 +93,6 @@ def approve_credits(request, request_id):
     user_profile.save()
 
     return redirect('admin_dashboard')
-
-from django.shortcuts import render
-from django.contrib.auth.decorators import user_passes_test
-from .models import CreditRequest
 
 # Check if the user is an admin
 def is_admin(user):
