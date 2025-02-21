@@ -6,9 +6,9 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     credits = models.IntegerField(default=20)
     last_reset = models.DateTimeField(default=timezone.now)
+    total_scans = models.IntegerField(default=0)
 
     def reset_credits(self):
-        # Reset credits to 20 if the last reset was more than 24 hours ago
         if (timezone.now() - self.last_reset).days >= 1:
             self.credits = 20
             self.last_reset = timezone.now()
@@ -25,9 +25,6 @@ class CreditRequest(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.requested_credits} credits"
-    
-from django.db import models
-from django.contrib.auth.models import User
 
 class Document(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

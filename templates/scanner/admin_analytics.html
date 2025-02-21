@@ -1,0 +1,28 @@
+{% extends 'scanner/base.html' %}
+{% block content %}
+<h2>Admin Analytics Dashboard</h2>
+<h3>Total Users: {{ total_users }}</h3>
+<h3>Total Scans: {{ total_scans }}</h3>
+<h3>Total Credit Usage: {{ credit_usage }}</h3>
+
+<h3>Top Users by Scans</h3>
+<table>
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Total Scans</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in top_users %}
+        <tr>
+            <td>{{ user.user.username }}</td>
+            <td>{{ user.total_scans }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p><a href="{% url 'admin_dashboard' %}">Back to Admin Dashboard</a></p>
+<p><a href="{% url 'profile' %}">Back to Profile</a></p>
+{% endblock %}

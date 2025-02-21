@@ -1,17 +1,17 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render
-from django.contrib.auth.decorators import user_passes_test
-from .models import CreditRequest
-from .models import UserProfile
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models import Sum
+from .models import CreditRequest, UserProfile, Document
 from .forms import DocumentForm
-from .models import Document
 import difflib
 
+# Home page
 def home(request):
     return render(request, 'scanner/index.html')
 
+# User registration
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -26,6 +26,7 @@ def register(request):
         form = UserCreationForm()
     return render(request, 'scanner/register.html', {'form': form})
 
+# User login
 def user_login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -38,14 +39,12 @@ def user_login(request):
             return render(request, 'scanner/login.html', {'error': 'Invalid credentials'})
     return render(request, 'scanner/login.html')
 
+# User logout
 def user_logout(request):
     logout(request)
     return redirect('login')
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from .models import UserProfile
-
+# User profile
 @login_required
 def profile(request):
     try:
@@ -55,9 +54,8 @@ def profile(request):
         user_profile = UserProfile.objects.create(user=request.user)
     return render(request, 'scanner/profile.html', {'profile': user_profile})
 
-from django.shortcuts import render, redirect
-from .models import CreditRequest
-
+# Request additional credits
+@login_required
 def request_credits(request):
     if request.method == 'POST':
         requested_credits = int(request.POST['credits'])
@@ -65,22 +63,19 @@ def request_credits(request):
         return redirect('profile')
     return render(request, 'scanner/request_credits.html')
 
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import user_passes_test
-from .models import CreditRequest, UserProfile
-
 # Check if the user is an admin
 def is_admin(user):
     return user.is_staff
 
-# Admin dashboard to view pending credit requests
+# Admin dashboard
 @user_passes_test(is_admin)
 def admin_dashboard(request):
     print("Admin dashboard view called")  # Debugging
     credit_requests = CreditRequest.objects.filter(approved=False)
+    print(f"Pending credit requests: {credit_requests}")  # Debugging
     return render(request, 'scanner/admin_dashboard.html', {'credit_requests': credit_requests})
 
-# View to approve credit requests
+# Approve credit requests
 @user_passes_test(is_admin)
 def approve_credits(request, request_id):
     credit_request = get_object_or_404(CreditRequest, id=request_id)
@@ -94,16 +89,7 @@ def approve_credits(request, request_id):
 
     return redirect('admin_dashboard')
 
-# Check if the user is an admin
-def is_admin(user):
-    return user.is_staff
-
-# Admin dashboard to view pending credit requests
-@user_passes_test(is_admin)
-def admin_dashboard(request):
-    credit_requests = CreditRequest.objects.filter(approved=False)
-    return render(request, 'scanner/admin_dashboard.html', {'credit_requests': credit_requests})
-
+# Upload document
 @login_required
 def upload_document(request):
     if request.method == 'POST':
@@ -113,9 +99,10 @@ def upload_document(request):
             document.user = request.user
             document.save()
 
-            # Deduct 1 credit for the scan
+            # Deduct 1 credit and increment total scans
             user_profile = request.user.userprofile
             user_profile.credits -= 1
+            user_profile.total_scans += 1
             user_profile.save()
 
             return redirect('matches', docId=document.id)
@@ -123,6 +110,7 @@ def upload_document(request):
         form = DocumentForm()
     return render(request, 'scanner/upload.html', {'form': form})
 
+# Find matching documents
 @login_required
 def find_matches(request, docId):
     try:
@@ -151,3 +139,25 @@ def find_matches(request, docId):
     except Exception as e:
         print(f"Error in find_matches: {e}")
         return render(request, 'scanner/matches.html', {'matches': []})
+
+# Admin analytics
+@user_passes_test(is_admin)
+def admin_analytics(request):
+    # Total number of users
+    total_users = User.objects.count()
+
+    # Total number of scans
+    total_scans = UserProfile.objects.aggregate(total_scans=Sum('total_scans'))['total_scans']
+
+    # Top users by scans
+    top_users = UserProfile.objects.order_by('-total_scans')[:5]
+
+    # Credit usage statistics
+    credit_usage = UserProfile.objects.aggregate(total_credits=Sum('credits'))['total_credits']
+
+    return render(request, 'scanner/admin_analytics.html', {
+        'total_users': total_users,
+        'total_scans': total_scans,
+        'top_users': top_users,
+        'credit_usage': credit_usage,
+    })
