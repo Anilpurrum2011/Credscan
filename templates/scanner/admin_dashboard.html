@@ -1,0 +1,26 @@
+{% extends 'scanner/base.html' %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+<h3>Pending Credit Requests</h3>
+<table>
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Requested Credits</th>
+            <th>Requested At</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for request in credit_requests %}
+        <tr>
+            <td>{{ request.user.username }}</td>
+            <td>{{ request.requested_credits }}</td>
+            <td>{{ request.requested_at }}</td>
+            <td><a href="{% url 'approve_credits' request.id %}">Approve</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p><a href="{% url 'profile' %}">Back to Profile</a></p>
+{% endblock %}

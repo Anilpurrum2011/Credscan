@@ -1,0 +1,21 @@
+{% extends 'scanner/base.html' %}
+{% block content %}
+<h2>Profile</h2>
+<p>Welcome, {{ user.username }}!</p>
+<p>Your credits: {{ profile.credits }}</p>
+<p>Last reset: {{ profile.last_reset }}</p>
+
+<!-- Link to upload document -->
+<a href="{% url 'upload' %}" class="btn">Upload Document</a>
+
+<!-- Link to request more credits -->
+<a href="{% url 'request_credits' %}" class="btn">Request More Credits</a>
+
+<!-- Link to logout -->
+<a href="{% url 'logout' %}" class="btn">Logout</a>
+
+<!-- Display admin dashboard link for admin users -->
+{% if user.is_staff %}
+    <p><a href="{% url 'admin_dashboard' %}" class="btn">Admin Dashboard</a></p>
+{% endif %}
+{% endblock %}

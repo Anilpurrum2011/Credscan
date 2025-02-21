@@ -1,0 +1,10 @@
+{% extends 'scanner/base.html' %}
+{% block content %}
+<h2>Upload Document</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn">Upload</button>
+</form>
+<p><a href="{% url 'profile' %}">Back to Profile</a></p>
+{% endblock %}

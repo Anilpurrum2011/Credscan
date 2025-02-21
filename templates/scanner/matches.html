@@ -1,0 +1,25 @@
+{% extends 'scanner/base.html' %}
+{% block content %}
+<h2>Matching Documents</h2>
+{% if matches %}
+    <table>
+        <thead>
+            <tr>
+                <th>Document</th>
+                <th>Similarity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doc, similarity in matches %}
+            <tr>
+                <td>{{ doc.file.name }}</td>
+                <td>{{ similarity|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No matching documents found.</p>
+{% endif %}
+<p><a href="{% url 'profile' %}">Back to Profile</a></p>
+{% endblock %}
