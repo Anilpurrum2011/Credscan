@@ -162,10 +162,14 @@ backend/
 
 - **Home Page**   ![WhatsApp Image 2025-02-28 at 15 51 21_cfdebe6b](https://github.com/user-attachments/assets/50ab1d55-22ca-43d1-baff-9c7ee1ad3f87)
 
-- **Login Page** 
-- **Profile Page**
-- **Admin Dashboard**
-- **Analytics Dashboard**
+- **Login Page**  ![WhatsApp Image 2025-02-28 at 15 51 40_4d3920b6](https://github.com/user-attachments/assets/ac72c17c-2470-4291-a0e7-bf5567d5d9b9)
+
+- **Profile Page**  ![WhatsApp Image 2025-02-28 at 15 52 04_45c71d3c](https://github.com/user-attachments/assets/a6fa8865-1782-4903-ba36-4fc208a46d7b)
+
+- **Upload Document**  ![WhatsApp Image 2025-02-28 at 15 52 54_4e484351](https://github.com/user-attachments/assets/67b14d0c-dddb-4e3d-9efa-d7eaceeb30e5)
+
+- **Request Additional Credits**  ![WhatsApp Image 2025-02-28 at 15 52 30_56f2ae96](https://github.com/user-attachments/assets/7d798ad7-ae0c-4a60-8af8-2e6ed06d92f5)
+
 
 ## Contributing
 
@@ -197,17 +201,6 @@ For questions or feedback, contact:
 - **GitHub:** https://github.com/Anilpurrum2011/
 
 ---
-
-### **Final Steps**
-
-1. Save this file as `README.md` in the root of your project.
-2. Commit and push it to GitHub:
-
-   ```bash
-   git add README.md
-   git commit -m "Added detailed README file"
-   git push origin main
-   ```
 
 
 
