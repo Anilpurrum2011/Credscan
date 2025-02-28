@@ -1,4 +1,4 @@
-# Document Scanner System
+# Credscan
 
 A self-contained document scanning and matching system with a built-in credit system. Users can upload documents, scan them for matches, and manage their credits. Admins can approve credit requests and view analytics.
 
