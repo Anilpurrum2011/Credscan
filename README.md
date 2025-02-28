@@ -53,10 +53,6 @@ Follow these steps to set up and run the project locally.
 git clone https://github.com/Anilpurrum2011/Credscan.git
 cd backend
 
-# CrediScan - Document Scanning and Matching System
-
-## Installation
-
 ### 1. Install Dependencies
 Ensure you have Python installed. Then, install the required dependencies:
 
@@ -164,8 +160,9 @@ backend/
 ## Screenshots
 (Add screenshots in the `screenshots/` folder and update paths here)
 
-- **Home Page**
-- **Login Page**
+- **Home Page**   ![WhatsApp Image 2025-02-28 at 15 51 21_cfdebe6b](https://github.com/user-attachments/assets/50ab1d55-22ca-43d1-baff-9c7ee1ad3f87)
+
+- **Login Page** 
 - **Profile Page**
 - **Admin Dashboard**
 - **Analytics Dashboard**
